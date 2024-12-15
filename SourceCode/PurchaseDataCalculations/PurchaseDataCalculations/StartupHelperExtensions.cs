@@ -1,4 +1,7 @@
-﻿namespace PurchaseData.InterfaceLayer
+﻿using PurchaseData.ApplicationCore.BusinessServices;
+using PurchaseData.ApplicationCore.Interfaces;
+
+namespace PurchaseData.InterfaceLayer
 {
     internal static class StartupHelperExtensions
     {
@@ -9,11 +12,12 @@
                 configure.ReturnHttpNotAcceptable = true;
             });
 
+            builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             return builder.Build();
-            //builder.Services.AddScoped<IVatCalculationsService, VATCalculationsService>();
 
             //builder.Services.AddControllers(options =>
             //{
