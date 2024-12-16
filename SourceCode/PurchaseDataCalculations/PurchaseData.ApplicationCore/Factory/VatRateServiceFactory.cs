@@ -1,28 +1,28 @@
-﻿using PurchaseData.ApplicationCore.BusinessServices;
-using PurchaseData.ApplicationCore.Interfaces;
+﻿using PurchaseData.ApplicationCore.Interfaces;
 
 namespace PurchaseData.ApplicationCore.Factory;
 
-public class VatRateServiceFactory : IVatRateServiceFactory
+public class VatRateServiceFactory : IVatRateServiceFactory, IDisposable
 {
-    private const string Austria = "Austria";
-    private readonly Dictionary<string, IVatRateService> VatRateStrategies;
+    private readonly IEnumerable<IVatRateService> Strategies;
 
-    public VatRateServiceFactory()
+    public VatRateServiceFactory(IEnumerable<IVatRateService> strategies)
     {
-        VatRateStrategies = new Dictionary<string, IVatRateService>
-        {
-            { Austria, new AustriaVatRateService() }
-        };
+        Strategies = strategies;
     }
 
     public IVatRateService GetStrategy(string country)
     {
-        if (VatRateStrategies.TryGetValue(country, out var strategy))
+        var strategy = Strategies.FirstOrDefault(s => s.SupportsCountry(country));
+        if (strategy == null)
         {
-            return strategy;
+            throw new NotSupportedException($"Country '{country}' not supported");
         }
+        return strategy;
+    }
 
-        throw new NotSupportedException($"Country '{country}' is not supported");
+    public void Dispose()
+    {
+        Console.WriteLine($"{nameof(VatRateServiceFactory)}.Dispose()");
     }
 }

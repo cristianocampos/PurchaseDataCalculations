@@ -3,7 +3,7 @@ using PurchaseData.ApplicationCore.Models;
 
 namespace PurchaseData.ApplicationCore.BusinessServices;
 
-public class VatCalculationsService : IVatCalculationsService
+public class VatCalculationsService : IVatCalculationsService, IDisposable
 {
 
     public VatCalculationsResponseModel Calculate(VatCalculationsRequestModel request)
@@ -45,5 +45,10 @@ public class VatCalculationsService : IVatCalculationsService
         {
             throw new Exception("An error occured during calculation", ex.InnerException);
         }
+    }
+
+    public void Dispose()
+    {
+        Console.WriteLine($"{nameof(VatCalculationsService)}.Dispose()");
     }
 }

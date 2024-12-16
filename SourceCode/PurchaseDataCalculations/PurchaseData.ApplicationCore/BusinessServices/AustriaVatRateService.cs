@@ -2,11 +2,22 @@
 
 namespace PurchaseData.ApplicationCore.BusinessServices;
 
-public class AustriaVatRateService : IVatRateService
+public class AustriaVatRateService : IVatRateService, IDisposable
 {
-    private static readonly List<decimal> AustriaRates = new() { 10M, 13M, 20M };
+    private const string Austria = "Austria";
+    private static readonly List<decimal> AustriaRates = new() { 10m, 13m, 20m };
 
     public bool IsValidVatRate(decimal vatRate) => AustriaRates.Contains(vatRate);
 
     public IEnumerable<decimal> GetVatRates() => AustriaRates;
+
+    public bool SupportsCountry(string country)
+    {
+        return string.Equals(country, Austria, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void Dispose()
+    {
+        Console.WriteLine($"{nameof(AustriaVatRateService)}.Dispose()");
+    }
 }
