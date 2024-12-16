@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PurchaseData.ApplicationCore.Validation;
 
-public class GreaterThanZeroAttribute : ValidationAttribute
+public class ValidateAmountInputAttribute : ValidationAttribute
 {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
@@ -11,21 +11,21 @@ public class GreaterThanZeroAttribute : ValidationAttribute
             VatCalculationsRequestModel requestEntity)
         {
             throw new Exception($"Attribute " +
-                $"{nameof(GreaterThanZeroAttribute)} " +
+                $"{nameof(ValidateAmountInputAttribute)} " +
                 $"must be applied to a " +
                 $"{nameof(VatCalculationsRequestModel)} or derived type.");
         }
 
-        if (value == null)
+        var validInputs = new[] { requestEntity.NetAmount, requestEntity.GrossAmount, requestEntity.VatAmount }.Count(x => x.HasValue);
+        if (validInputs > 1)
         {
-            return ValidationResult.Success;
+            return new ValidationResult("More than one amount input provided.");
+        } 
+        else if (validInputs < 1)
+        {
+            return new ValidationResult("Missing amount input.");
         }
 
-        if (value is decimal decimalValue && decimalValue > 0)
-        {
-            return ValidationResult.Success;
-        }
-
-        return new ValidationResult($"{validationContext.DisplayName} must be greater than 0");
+        return ValidationResult.Success;
     }
 }
