@@ -15,6 +15,5 @@ public class VatCalculationsRequestModel
     public decimal? VatAmount { get; set; }
 
     [Required(ErrorMessage = "VAT rate is required")]
-    [GreaterThanZero]
     public decimal? VatRate { get; set; }
 }
