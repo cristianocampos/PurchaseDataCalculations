@@ -1,4 +1,5 @@
 ﻿using PurchaseData.ApplicationCore.BusinessServices;
+using PurchaseData.ApplicationCore.Factory;
 using PurchaseData.ApplicationCore.Interfaces;
 
 namespace PurchaseData.InterfaceLayer
@@ -13,6 +14,7 @@ namespace PurchaseData.InterfaceLayer
             });
 
             builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
+            builder.Services.AddScoped<IVatRateServiceFactory, VatRateServiceFactory>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
