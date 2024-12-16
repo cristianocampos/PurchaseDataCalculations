@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using PurchaseData.ApplicationCore.BusinessServices;
 using PurchaseData.ApplicationCore.Factory;
 using PurchaseData.ApplicationCore.Interfaces;
@@ -11,7 +12,12 @@ namespace PurchaseData.InterfaceLayer
             builder.Services.AddControllers(configure =>
             {
                 configure.ReturnHttpNotAcceptable = true;
+            })
+            .AddNewtonsoftJson((options) =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
+
 
             builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
             builder.Services.AddScoped<IVatRateServiceFactory, VatRateServiceFactory>();

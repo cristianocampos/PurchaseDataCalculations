@@ -4,16 +4,16 @@ namespace PurchaseData.ApplicationCore.Factory;
 
 public class VatRateServiceFactory : IVatRateServiceFactory, IDisposable
 {
-    private readonly IEnumerable<IVatRateService> Strategies;
+    private readonly IEnumerable<IVatRateService> _strategies;
 
     public VatRateServiceFactory(IEnumerable<IVatRateService> strategies)
     {
-        Strategies = strategies;
+        _strategies = strategies;
     }
 
     public IVatRateService GetStrategy(string country)
     {
-        var strategy = Strategies.FirstOrDefault(s => s.SupportsCountry(country));
+        var strategy = _strategies.FirstOrDefault(s => s.SupportsCountry(country));
         if (strategy == null)
         {
             throw new NotSupportedException($"Country '{country}' not supported");
