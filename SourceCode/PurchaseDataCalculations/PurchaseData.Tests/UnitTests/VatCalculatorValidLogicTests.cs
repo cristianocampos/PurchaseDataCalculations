@@ -2,14 +2,14 @@
 using PurchaseData.ApplicationCore.Interfaces;
 using PurchaseData.ApplicationCore.Models;
 
-namespace PurchaseData.Tests;
+namespace PurchaseData.Tests.UnitTests;
 
-public class VatCalculatorTests
+public class VatCalculatorValidLogicTests
 {
     private const decimal VatRate = 20M;
     private readonly IVatCalculationsService vatCalculator;
 
-    public VatCalculatorTests()
+    public VatCalculatorValidLogicTests()
     {
         vatCalculator = new VatCalculationsService();
     }
@@ -72,7 +72,7 @@ public class VatCalculatorTests
     public async Task Calculate_ProvidedVatAmount_ShouldReturnCorrectNetAndGross()
     {
         // Arrange
-        var vatAmount = 54.27M;
+        var vatAmount = (decimal)Math.Pow(10, 6);
         var request = new VatCalculationsRequestModel
         {
             VatAmount = vatAmount,
@@ -82,8 +82,8 @@ public class VatCalculatorTests
         var response = new VatCalculationsResponseModel
         {
             VatAmount = vatAmount,
-            GrossAmount = 325.62M,
-            NetAmount = 271.35M,
+            GrossAmount = 6000000M,
+            NetAmount = 5000000M,
             VatRate = 20M
         };
 
