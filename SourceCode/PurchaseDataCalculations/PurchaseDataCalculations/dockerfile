@@ -1,0 +1,32 @@
+# Use the official .NET SDK image to build the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+EXPOSE 8080
+
+# Copy the solution file
+COPY *.sln ./
+
+# Copy the csproj files and restore dependencies
+COPY PurchaseDataCalculations/PurchaseData.InterfaceLayer.csproj ./PurchaseDataCalculations/
+COPY PurchaseData.ApplicationCore/PurchaseData.ApplicationCore.csproj ./PurchaseData.ApplicationCore/
+COPY PurchaseData.Tests/*.csproj ./PurchaseData.Tests/ 
+RUN dotnet restore
+
+# Copy the entire project contents and build the application
+COPY PurchaseDataCalculations/. ./PurchaseDataCalculations/
+COPY PurchaseData.ApplicationCore/. ./PurchaseData.ApplicationCore/
+# RUN dotnet build --no-restore -c Release -o /app
+
+# Publish the application
+WORKDIR /app/PurchaseDataCalculations
+# RUN dotnet publish PurchaseDataCalculations/PurchaseData.InterfaceLayer.csproj -c Release -o /app/publish
+RUN dotnet publish -c Release -o out
+
+# Use the official .NET runtime image to run the app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/PurchaseDataCalculations/out .
+
+# Set the entry point for the application
+ENTRYPOINT ["dotnet", "PurchaseData.InterfaceLayer.dll"]
