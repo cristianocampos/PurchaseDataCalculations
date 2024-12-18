@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PurchaseData.ApplicationCore.BusinessServices;
 using PurchaseData.ApplicationCore.Factory;
@@ -18,6 +20,9 @@ namespace PurchaseData.InterfaceLayer
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
 
+            builder.Services.AddLogging(logbuilder =>
+                logbuilder.AddFile(builder.Configuration.GetSection("FileLogging"))
+            );
 
             builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
             builder.Services.AddScoped<IVatRateServiceFactory, VatRateServiceFactory>();
@@ -69,7 +74,7 @@ namespace PurchaseData.InterfaceLayer
                 });
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

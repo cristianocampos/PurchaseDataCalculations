@@ -20,7 +20,7 @@ public class ValidateAmountInputAttribute : ValidationAttribute
         if (validInputs > 1)
         {
             return new ValidationResult("More than one amount input provided.");
-        } 
+        }
         else if (validInputs < 1)
         {
             return new ValidationResult("Missing amount input.");
