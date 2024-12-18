@@ -1,5 +1,5 @@
 ﻿using PurchaseData.ApplicationCore.BusinessServices;
-using PurchaseData.ApplicationCore.Factory;
+using PurchaseData.ApplicationCore.Context;
 using PurchaseData.ApplicationCore.Interfaces;
 using PurchaseData.ApplicationCore.Models;
 using System.ComponentModel.DataAnnotations;
@@ -9,12 +9,12 @@ namespace PurchaseData.Tests.UnitTests;
 public class VatCalculatorVatRateTests
 {
     private readonly IVatRateService vatValidator;
-    private readonly IVatRateServiceFactory vatServiceFactory;
+    private readonly IVatRateServiceContext vatServiceContext;
 
     public VatCalculatorVatRateTests()
     {
         vatValidator = new AustriaVatRateService();
-        vatServiceFactory = new VatRateServiceFactory(new List<IVatRateService> { vatValidator });
+        vatServiceContext = new VatRateServiceContext(new List<IVatRateService> { vatValidator });
     }
 
     [Fact]
@@ -122,6 +122,6 @@ public class VatCalculatorVatRateTests
         var invalidCountry = "Spain";
 
         // Act and Assert
-        Assert.Throws<NotSupportedException>(() => vatServiceFactory.GetStrategy(invalidCountry));
+        Assert.Throws<NotSupportedException>(() => vatServiceContext.GetStrategy(invalidCountry));
     }
 }

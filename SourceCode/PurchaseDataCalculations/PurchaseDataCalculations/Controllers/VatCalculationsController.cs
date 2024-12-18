@@ -11,10 +11,10 @@ namespace PurchaseData.InterfaceLayer.Controllers
         private const string _country = "Austria";
         private readonly ILogger<VatCalculationsController> _logger;
         private readonly IVatCalculationsService _service;
-        private readonly IVatRateServiceFactory _rateServiceFactory;
+        private readonly IVatRateServiceContext _rateServiceFactory;
         private readonly IVatRateService _vatRateStrategy;
 
-        public VatCalculationsController(ILogger<VatCalculationsController> logger, IVatCalculationsService service, IVatRateServiceFactory rateServiceFactory, IVatRateService vatRateStrategy)
+        public VatCalculationsController(ILogger<VatCalculationsController> logger, IVatCalculationsService service, IVatRateServiceContext rateServiceFactory, IVatRateService vatRateStrategy)
         {
             _logger = logger;
             _service = service;

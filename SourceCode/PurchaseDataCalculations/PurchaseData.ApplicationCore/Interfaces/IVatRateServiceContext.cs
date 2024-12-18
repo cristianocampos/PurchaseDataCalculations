@@ -1,6 +1,6 @@
 ﻿namespace PurchaseData.ApplicationCore.Interfaces;
 
-public interface IVatRateServiceFactory
+public interface IVatRateServiceContext
 {
     IVatRateService GetStrategy(string country);
 }

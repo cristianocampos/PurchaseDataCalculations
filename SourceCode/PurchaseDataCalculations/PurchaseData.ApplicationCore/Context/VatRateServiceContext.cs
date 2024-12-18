@@ -1,12 +1,12 @@
 ﻿using PurchaseData.ApplicationCore.Interfaces;
 
-namespace PurchaseData.ApplicationCore.Factory;
+namespace PurchaseData.ApplicationCore.Context;
 
-public class VatRateServiceFactory : IVatRateServiceFactory, IDisposable
+public class VatRateServiceContext : IVatRateServiceContext, IDisposable
 {
     private readonly IEnumerable<IVatRateService> _strategies;
 
-    public VatRateServiceFactory(IEnumerable<IVatRateService> strategies)
+    public VatRateServiceContext(IEnumerable<IVatRateService> strategies)
     {
         _strategies = strategies;
     }
@@ -23,6 +23,6 @@ public class VatRateServiceFactory : IVatRateServiceFactory, IDisposable
 
     public void Dispose()
     {
-        Console.WriteLine($"{nameof(VatRateServiceFactory)}.Dispose()");
+        Console.WriteLine($"{nameof(VatRateServiceContext)}.Dispose()");
     }
 }
