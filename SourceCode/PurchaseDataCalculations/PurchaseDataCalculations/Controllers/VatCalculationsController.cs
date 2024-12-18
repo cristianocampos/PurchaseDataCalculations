@@ -21,8 +21,8 @@ namespace PurchaseData.InterfaceLayer.Controllers
             _rateServiceFactory = rateServiceFactory;
         }
 
-        [HttpPost]
-        public IActionResult CalculateVat(VatCalculationsRequestModel requestEntity)
+        [HttpGet]
+        public IActionResult CalculateVat([FromQuery] VatCalculationsRequestModel requestEntity)
         {
             var vatRateStrategy = _rateServiceFactory.GetStrategy(_country);
             if (!vatRateStrategy.IsValidVatRate(requestEntity.VatRate.Value))
