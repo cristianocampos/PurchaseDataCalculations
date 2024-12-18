@@ -32,26 +32,6 @@ namespace PurchaseData.InterfaceLayer
             builder.Services.AddSwaggerGen();
 
             return builder.Build();
-
-            //builder.Services.AddControllers(options =>
-            //{
-            //    // For example: if the client puts a header: Accept: 'application/xml' it is going to return 406 Not aceptable
-            //    options.ReturnHttpNotAcceptable = true;
-            //    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
-            //    _ => "The field is required.");
-            //})
-            //.AddNewtonsoftJson(setupAction =>
-            //{
-            //    setupAction.SerializerSettings.ContractResolver = null;
-            //    //new CamelCasePropertyNamesContractResolver();
-            //});
-
-            //builder.Services.AddControllers(options =>
-            //{
-            //    options.ModelMetadataDetailsProviders.Add(new NewtonsoftJsonValidationMetadataProvider());
-            //}).AddNewtonsoftJson();
-
-            //builder.Services.AddProblemDetails();
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
@@ -73,8 +53,6 @@ namespace PurchaseData.InterfaceLayer
                     });
                 });
             }
-
-            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
