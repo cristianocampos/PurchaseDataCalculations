@@ -15,7 +15,7 @@ public class VatCalculatorValidLogicTests
     }
 
     [Fact]
-    public async Task Calculate_ProvidedNetAmount_ShouldReturnCorrectGrossAndVat()
+    public void Calculate_ProvidedNetAmount_ShouldReturnCorrectGrossAndVat()
     {
         // Arrange
         var netAmount = 76.42M;
@@ -42,7 +42,7 @@ public class VatCalculatorValidLogicTests
     }
 
     [Fact]
-    public async Task Calculate_ProvidedGrossAmount_ShouldReturnCorrectNetAndVat()
+    public void Calculate_ProvidedGrossAmount_ShouldReturnCorrectNetAndVat()
     {
         // Arrange
         var grossAmount = 0.5M;
@@ -69,7 +69,7 @@ public class VatCalculatorValidLogicTests
     }
 
     [Fact]
-    public async Task Calculate_ProvidedVatAmount_ShouldReturnCorrectNetAndGross()
+    public void Calculate_ProvidedVatAmount_ShouldReturnCorrectNetAndGross()
     {
         // Arrange
         var vatAmount = (decimal)Math.Pow(10, 6);

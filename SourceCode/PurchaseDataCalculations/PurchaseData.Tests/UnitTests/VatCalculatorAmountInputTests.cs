@@ -36,7 +36,8 @@ public class VatCalculatorAmountInputTests
         var actual = Validator.TryValidateObject(request, context, results, true);
 
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("Missing amount input."));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("Missing amount input.") == true);
     }
 
     [Fact]
@@ -53,7 +54,8 @@ public class VatCalculatorAmountInputTests
         var actual = Validator.TryValidateObject(request, context, results, true);
 
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("Missing amount input."));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("Missing amount input.") == true);
     }
 
     [Fact]
@@ -70,7 +72,8 @@ public class VatCalculatorAmountInputTests
         var actual = Validator.TryValidateObject(request, context, results, true);
 
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("NetAmount must be different than 0"));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("NetAmount must be different than 0") == true);
     }
 
     [Fact]
@@ -87,7 +90,8 @@ public class VatCalculatorAmountInputTests
         var actual = Validator.TryValidateObject(request, context, results, true);
 
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("GrossAmount must be different than 0"));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("GrossAmount must be different than 0") == true);
     }
 
     [Fact]
@@ -105,7 +109,8 @@ public class VatCalculatorAmountInputTests
         var actual = Validator.TryValidateObject(request, context, results, true);
         
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("More than one amount input provided."));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("More than one amount input provided.") == true);
     }
 
 

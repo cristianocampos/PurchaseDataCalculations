@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PurchaseData.ApplicationCore.Interfaces;
 using PurchaseData.ApplicationCore.Models;
 
@@ -24,18 +23,25 @@ namespace PurchaseData.InterfaceLayer.Controllers
         [HttpGet]
         public IActionResult CalculateVat([FromQuery] VatCalculationsRequestModel requestEntity)
         {
-            var vatRateStrategy = _rateServiceFactory.GetStrategy(_country);
-            if (!vatRateStrategy.IsValidVatRate(requestEntity.VatRate.Value))
+            try
             {
-                ModelState.AddModelError(
-                    nameof(requestEntity.VatRate),
-                    $"Invalid VAT rate for {_country}. Accepted values are: {string.Join(", ", vatRateStrategy.GetVatRates())}"
-                );
+                var vatRateStrategy = _rateServiceFactory.GetStrategy(_country);
+                if (!vatRateStrategy.IsValidVatRate(requestEntity.VatRate ?? 0))
+                {
+                    ModelState.AddModelError(
+                        nameof(requestEntity.VatRate),
+                        $"Invalid VAT rate for {_country}. Accepted values are: {string.Join(", ", vatRateStrategy.GetVatRates())}"
+                    );
 
-                return ValidationProblem();
+                    return ValidationProblem();
+                }
+                return Ok(_service.Calculate(requestEntity));
             }
-
-            return Ok(_service.Calculate(requestEntity));
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred.");
+                throw;
+            }
         }
     }
 }

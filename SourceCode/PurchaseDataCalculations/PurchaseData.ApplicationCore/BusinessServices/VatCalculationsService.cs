@@ -14,19 +14,19 @@ public class VatCalculationsService : IVatCalculationsService, IDisposable
 
         try
         {
-            if (request.NetAmount.HasValue)
+            if (request.NetAmount.HasValue && request.VatRate.HasValue)
             {
                 net = request.NetAmount.Value;
                 vat = net * (request.VatRate.Value / 100);
                 gross = net + vat;
             }
-            else if (request.GrossAmount.HasValue)
+            else if (request.GrossAmount.HasValue && request.VatRate.HasValue)
             {
                 gross = request.GrossAmount.Value;
                 net = gross / (1 + (request.VatRate.Value / 100));
                 vat = gross - net;
             }
-            else if (request.VatAmount.HasValue)
+            else if (request.VatAmount.HasValue && request.VatRate.HasValue)
             {
                 vat = request.VatAmount.Value;
                 net = vat / (request.VatRate.Value / 100);
@@ -38,7 +38,7 @@ public class VatCalculationsService : IVatCalculationsService, IDisposable
                 GrossAmount = Math.Round(gross, 2),
                 VatAmount = Math.Round(vat, 2),
                 NetAmount = Math.Round(net, 2),
-                VatRate = request.VatRate.Value
+                VatRate = request.VatRate ?? 0
             };
         }
         catch (Exception ex)

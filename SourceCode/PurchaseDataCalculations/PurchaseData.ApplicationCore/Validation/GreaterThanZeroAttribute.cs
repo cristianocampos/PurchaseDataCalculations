@@ -5,7 +5,7 @@ namespace PurchaseData.ApplicationCore.Validation;
 
 public class GreaterThanZeroAttribute : ValidationAttribute
 {
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(object value, ValidationContext validationContext)
     {
         if (validationContext.ObjectInstance is not
             VatCalculationsRequestModel requestEntity)

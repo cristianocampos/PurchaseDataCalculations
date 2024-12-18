@@ -1,4 +1,5 @@
 ﻿using PurchaseData.ApplicationCore.BusinessServices;
+using PurchaseData.ApplicationCore.Factory;
 using PurchaseData.ApplicationCore.Interfaces;
 using PurchaseData.ApplicationCore.Models;
 using System.ComponentModel.DataAnnotations;
@@ -8,10 +9,12 @@ namespace PurchaseData.Tests.UnitTests;
 public class VatCalculatorVatRateTests
 {
     private readonly IVatRateService vatValidator;
+    private readonly IVatRateServiceFactory vatServiceFactory;
 
     public VatCalculatorVatRateTests()
     {
         vatValidator = new AustriaVatRateService();
+        vatServiceFactory = new VatRateServiceFactory(new List<IVatRateService> { vatValidator });
     }
 
     [Fact]
@@ -56,7 +59,8 @@ public class VatCalculatorVatRateTests
 
         // Assert
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("VAT rate is required"));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("VAT rate is required") == true);
     }
 
     [Fact]
@@ -76,7 +80,8 @@ public class VatCalculatorVatRateTests
 
         // Assert
         Assert.False(actual);
-        Assert.Contains(results, v => v.ErrorMessage.Contains("VAT rate is required"));
+        Assert.NotNull(results);
+        Assert.Contains(results, v => v?.ErrorMessage?.Contains("VAT rate is required") == true);
     }
 
     [Fact]
@@ -108,5 +113,15 @@ public class VatCalculatorVatRateTests
 
         // Assert
         Assert.True(actual);
+    }
+
+    [Fact]
+    public void Calculate_WithInvalidCountry_ShouldFailValidation()
+    {
+        // Arrange
+        var invalidCountry = "Spain";
+
+        // Act and Assert
+        Assert.Throws<NotSupportedException>(() => vatServiceFactory.GetStrategy(invalidCountry));
     }
 }
