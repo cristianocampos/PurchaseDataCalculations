@@ -16,7 +16,9 @@ public class ValidateAmountInputAttribute : ValidationAttribute
                 $"{nameof(VatCalculationsRequestModel)} or derived type.");
         }
 
-        var validInputs = new[] { requestEntity.NetAmount, requestEntity.GrossAmount, requestEntity.VatAmount }.Count(x => x.HasValue);
+        var validInputs = new[] { requestEntity.NetAmount, requestEntity.GrossAmount, requestEntity.VatAmount }
+            .Count(x => x.HasValue);
+
         if (validInputs > 1)
         {
             return new ValidationResult("More than one amount input provided.");
