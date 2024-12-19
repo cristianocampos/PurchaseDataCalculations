@@ -24,9 +24,9 @@ internal static class StartupHelperExtensions
             logbuilder.AddFile(builder.Configuration.GetSection("FileLogging"))
         );
 
-        builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
-        builder.Services.AddScoped<IVatRateServiceContext, VatRateServiceContext>();
-        builder.Services.AddScoped<IVatRateService, AustriaVatRateService>();
+        builder.Services.AddSingleton<IVatCalculationsService, VatCalculationsService>();
+        builder.Services.AddSingleton<IVatRateServiceContext, VatRateServiceContext>();
+        builder.Services.AddSingleton<IVatRateService, AustriaVatRateService>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
