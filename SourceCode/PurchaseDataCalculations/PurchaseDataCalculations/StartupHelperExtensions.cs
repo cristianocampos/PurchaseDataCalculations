@@ -38,6 +38,8 @@ internal static class StartupHelperExtensions
     {
         if (app.Environment.IsDevelopment())
         {
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseDeveloperExceptionPage();
         }
         else
