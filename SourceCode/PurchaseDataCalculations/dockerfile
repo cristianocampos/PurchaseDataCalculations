@@ -1,0 +1,37 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 5002
+
+
+ENV ASPNETCORE_HTTP_PORTS=5002
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+COPY *.sln ./
+
+COPY ["PurchaseDataCalculations/PurchaseData.InterfaceLayer.csproj", "PurchaseDataCalculations/"]
+COPY ["PurchaseData.ApplicationCore/PurchaseData.ApplicationCore.csproj", "PurchaseData.ApplicationCore/"]
+COPY ["PurchaseData.Tests/PurchaseData.Tests.csproj", "PurchaseData.Tests/"]
+RUN dotnet restore
+
+COPY . .
+WORKDIR "/src/PurchaseDataCalculations"
+RUN dotnet build "./PurchaseData.InterfaceLayer.csproj" -c $BUILD_CONFIGURATION -o /app
+
+WORKDIR "/src/PurchaseData.ApplicationCore"
+RUN dotnet build "./PurchaseData.ApplicationCore.csproj" -c $BUILD_CONFIGURATION -o /app
+
+WORKDIR "/src/PurchaseData.Tests"
+RUN dotnet build "./PurchaseData.Tests.csproj" -c $BUILD_CONFIGURATION -o /app
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish -c $BUILD_CONFIGURATION -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "PurchaseData.InterfaceLayer.dll"]
