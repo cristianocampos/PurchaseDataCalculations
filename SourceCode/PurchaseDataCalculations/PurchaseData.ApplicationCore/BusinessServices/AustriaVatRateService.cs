@@ -2,7 +2,7 @@
 
 namespace PurchaseData.ApplicationCore.BusinessServices;
 
-public class AustriaVatRateService : IVatRateService, IDisposable
+public class AustriaVatRateService : IVatRateService
 {
     private const string Austria = "Austria";
     private readonly List<decimal> _austriaRates = new() { 10m, 13m, 20m };

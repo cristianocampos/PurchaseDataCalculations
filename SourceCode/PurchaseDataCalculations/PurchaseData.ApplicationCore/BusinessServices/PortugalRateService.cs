@@ -2,7 +2,7 @@
 
 namespace PurchaseData.ApplicationCore.BusinessServices;
 
-public class PortugalRateService : IVatRateService, IDisposable
+public class PortugalRateService : IVatRateService
 {
     private static readonly List<decimal> PortugalRates = new() { 6m, 13m, 23m };
 

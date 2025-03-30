@@ -3,12 +3,11 @@ using PurchaseData.ApplicationCore.Models;
 
 namespace PurchaseData.ApplicationCore.BusinessServices;
 
-public class VatCalculationsService : IVatCalculationsService, IDisposable
+public class VatCalculationsService : IVatCalculationsService
 {
-
     public VatCalculationsResponseModel Calculate(VatCalculationsRequestModel request)
     {
-        decimal net = 0, 
+        decimal net = 0,
                 gross = 0,
                 vat = 0;
 

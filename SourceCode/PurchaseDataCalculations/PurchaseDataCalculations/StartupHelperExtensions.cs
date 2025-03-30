@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
 using PurchaseData.ApplicationCore.BusinessServices;
 using PurchaseData.ApplicationCore.Context;
 using PurchaseData.ApplicationCore.Interfaces;
@@ -24,12 +22,13 @@ internal static class StartupHelperExtensions
             logbuilder.AddFile(builder.Configuration.GetSection("FileLogging"))
         );
 
-        builder.Services.AddSingleton<IVatCalculationsService, VatCalculationsService>();
-        builder.Services.AddSingleton<IVatRateServiceContext, VatRateServiceContext>();
-        builder.Services.AddSingleton<IVatRateService, AustriaVatRateService>();
+        builder.Services.AddScoped<IVatCalculationsService, VatCalculationsService>();
+        builder.Services.AddScoped<IVatRateServiceContext, VatRateServiceContext>();
+        builder.Services.AddScoped<IVatRateService, AustriaVatRateService>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        //builder.Services.AddGlobalErr
 
         return builder.Build();
     }
@@ -63,3 +62,5 @@ internal static class StartupHelperExtensions
         return app;
     }
 }
+
+//default behaviour is to write exception to string, good for debugging, local.
